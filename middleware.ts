@@ -1,4 +1,9 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
+//following routes are public routes
+const isPublicRoutes = createRouteMatcher(["/", "/auth(.*)", "/subscribe(.*)"]);
+const isSignInRoute = createRouteMatcher(["/auth(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const userAuth = await auth();
@@ -6,6 +11,14 @@ export default clerkMiddleware(async (auth, req) => {
   const { pathname, origin } = req.nextUrl;
 
   console.log("middleware Info:", userId, pathname, origin);
+
+  if (!isPublicRoutes(req) && !userId) {
+    return NextResponse.redirect(new URL("/auth", origin));
+  }
+  if (isSignInRoute(req) && userId) {
+    return NextResponse.redirect(new URL("/mealplan", origin));
+  }
+  return NextResponse.next();
 });
 
 export const config = {

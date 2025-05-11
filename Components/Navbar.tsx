@@ -69,6 +69,14 @@ export default function Navbar() {
                 Home
               </Link>
               <Link
+                href={isSignedIn ? "/subscribe" : "/auth"}
+                className={`duration-200 ${
+                  pathname === "/subscribe" ? "font-bold border-b" : ""
+                }`}
+              >
+                subscribe
+              </Link>
+              <Link
                 href="/auth"
                 className={`duration-200 ${
                   pathname === "/auth" ? "font-bold border-b" : ""
@@ -79,7 +87,7 @@ export default function Navbar() {
             </SignedOut>
             <SignedIn>
               <Link
-                href="/profile"
+                href="/mealplan"
                 className={`duration-200 ${
                   pathname === "/profile" ? "font-bold border-b" : ""
                 }`}
@@ -87,13 +95,14 @@ export default function Navbar() {
                 Profile
               </Link>
               <Link
-                href={isSignedIn ? "/subscribe" : "/auth"}
+                href="/profile"
                 className={`duration-200 ${
-                  pathname === "/subscribe" ? "font-bold border-b" : ""
+                  pathname === "/profile" ? "font-bold border-b" : ""
                 }`}
               >
-                subscribe
+                Profile
               </Link>
+
               <Link href="/">
                 <Image
                   width={20}
